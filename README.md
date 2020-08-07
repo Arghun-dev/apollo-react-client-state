@@ -8,6 +8,7 @@ Requirements
 Node.js (version 8 or later)
 Web Browser
 Instructions
+
 `Step 1. Clone/Download this repository. If downloading the zip file, then extract the zip file.`
 
 `Step 2. Open a terminal window and change to the folder containing the "package.json" file.`
@@ -18,9 +19,9 @@ Instructions
 
 `$. npm run start-rest-server`
 
-Step 4. Open a second terminal window and change to the folder containing the "package.json" file.
+`$. Step 4. Open a second terminal window and change to the folder containing the "package.json" file.`
 
-Step 5. Run the following command:
+`$. Step 5. Run the following command:`
 
 `$. npm run start-graphql-server`
 
