@@ -54,3 +54,92 @@ npm run start-graphql-server-cygwin
 
 npm run start-client-cygwin
 If you are using the Windows Command Prompt (default on Windows), then use the original commands listed in the instructions.
+
+
+## Instructions
+
+**The REST service data is provided by the `db.json` file**
+**The REST service retrieves data from and saves data to `db.json`, also it watches the file for external changes**
+**The Apollo Graphql server uses babel to transpile the source Javascript code**
+**The source code is located in the `graphql-server` folder**
+**Each time a change made to the source code, Babel re-traspiles the code and the server restarts**
+**The React Application server watches changes to its files and restarts automatically**
+**The React Application files are located in the `public` and `src` folder**
+**Almost all React Applications changes will be made in the `src` folder**
+
+
+## Creating a development environment
+
+1. Install `Node.js`
+
+2. Clone this repository: `https://github.com/t4d-wintellectnow/apollo-react-client-state-starter-project`
+
+3. `$. npm install`
+
+4. `$. npm run start-rest-server`
+
+5. `$. npm run start-graphql-server`
+
+6. `$. npm run start-client`
+
+
+## Using Client State
+
+**Configuring Client State**
+
+1. Client State is configured by adding a client state link to the Apollo client link configuration
+
+2. The client state link needs a cache where the client state will be stored, this can be the same cache as used for the GraphQl server queries.
+
+3. a default client state tree can be configured using the defaults option
+
+4. the resolvers must be set to an empty object even if no resolvers are explicitly defined.
+
+```js
+import { withClientState } from 'apollo-link-state'
+
+const clientStateLink = withClientState({
+  cache,
+  defaults: {
+    toolName: 'widget tool'
+  },
+  resolvers: {},
+})
+
+const link = split(
+  webSocketLink,
+  ApolloLink.from([clientStateLink, httpLink])
+);
+```
+
+**Client Directive**
+
+1. To access a client state via a query the @client directive is used
+
+2. The directive is handled by the client state link to retrieve the data from the client state in the cache
+
+3. Server and client queries can be combined into one query
+
+4. If a server client combined query is "refetched" from the server meaning the cahce is bypassed (a "network only" fetch policy) The local state will be reverted to the value of the defaults option in the client state configuration.
+
+GrapgQl Client Directive:
+
+```js
+export const APP_QUERY = qql`
+  query App {
+    toolName @client,
+    widgets: {
+      id
+      name
+      description
+      color
+      size
+      price
+      quantity
+    }
+  }
+`
+```
+
+## Configuring and Querying Client State
+
